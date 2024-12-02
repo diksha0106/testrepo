@@ -1,0 +1,83 @@
+package controllers;
+
+import dao.UserDao;
+import models.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+public class AdminController {
+    @FXML private TableView<User> userTable;
+    @FXML private TableColumn<User, Long> idColumn;
+    @FXML private TableColumn<User, String> firstNameColumn;
+    @FXML private TableColumn<User, String> lastNameColumn;
+    @FXML private TableColumn<User, String> emailColumn;
+    @FXML private TableColumn<User, String> phoneColumn;
+    @FXML private TableColumn<User, String> addressColumn;
+    @FXML private TableColumn<User, String> roleColumn;
+
+    private UserDao userDao;
+    private ObservableList<User> userList;
+
+    @FXML
+    public void initialize() {
+        userDao = new UserDao();
+        userList = FXCollections.observableArrayList();
+
+        // Initialize columns
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<>("streetAddress"));
+        roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
+
+        refreshUserList();
+    }
+
+    @FXML
+    private void refreshUserList() {
+        userList.clear();
+        userList.addAll(userDao.getAllUsers());
+        userTable.setItems(userList);
+    }
+
+    @FXML
+    private void deleteUser() {
+        User selectedUser = userTable.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+            if (selectedUser.getRole().equals("admin")) {
+                showAlert(Alert.AlertType.ERROR, "Error", "Cannot delete admin account");
+                return;
+            }
+
+            if (userDao.deleteUser(selectedUser.getId())) {
+                refreshUserList();
+                showAlert(Alert.AlertType.INFORMATION, "Success", "User deleted successfully");
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error", "Failed to delete user");
+            }
+        }
+    }
+
+    @FXML
+    private void logout() {
+        try {
+            // Navigate back to login view
+            loadView("/views/LoginView.fxml", userTable.getScene().getWindow());
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to logout");
+        }
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String content) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+}

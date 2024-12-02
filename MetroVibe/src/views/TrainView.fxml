@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" 
+      fx:controller="controllers.TrainController"
+      spacing="10">
+    
+    <!-- Use a proper Insets object for padding -->
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Train Management" style="-fx-font-size: 24;"/>
+    
+    <TableView fx:id="trainTable">
+    <columns>
+        <TableColumn fx:id="trainNumberColumn" text="Train Number" />
+        <TableColumn fx:id="trainNameColumn" text="Train Name" />
+    </columns>
+</TableView>
+
+<TextField fx:id="trainNumberField" promptText="Enter Train Number" />
+<TextField fx:id="trainNameField" promptText="Enter Train Name" />
+<TextArea fx:id="stationsArea" promptText="Enter stations (one per line)" />
+<Button text="Add Train" onAction="#handleAddTrain" />
+<Button text="Update Train" onAction="#handleUpdateTrain" />
+<Button text="Delete Train" onAction="#handleDeleteTrain" />
+
+
+
+</VBox>

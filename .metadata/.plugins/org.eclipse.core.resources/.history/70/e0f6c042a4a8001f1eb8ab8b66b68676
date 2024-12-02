@@ -1,0 +1,158 @@
+package controllers;
+
+import dao.UserDao;
+import models.User;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+
+public class UserController {
+
+    @FXML private TextField emailField;
+    @FXML private PasswordField passwordField;
+    @FXML private TextField firstNameField;
+    @FXML private TextField lastNameField;
+    @FXML private PasswordField confirmPasswordField;
+    @FXML private TextField phoneNumberField;
+    @FXML private TextField addressField;
+    @FXML private ComboBox<String> securityQuestionBox;
+    @FXML private TextField securityAnswerField;
+    @FXML private PasswordField newPasswordField;
+
+    private UserDao userDao;
+
+    public UserController() {
+        this.userDao = new UserDao();
+    }
+
+    @FXML
+    protected void handleLogin(ActionEvent event) {
+        String email = emailField.getText();
+        String password = passwordField.getText();
+
+        User user = userDao.findByEmail(email);
+
+        if (user != null && user.getPassword().equals(password)) {
+            System.out.println("Login successful!");
+        } else {
+            System.out.println("Invalid credentials.");
+        }
+    }
+
+    @FXML
+    protected void showRegisterView(ActionEvent event) throws Exception {
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("views/registerview.fxml"));
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+    @FXML
+    protected void showForgotPasswordView(ActionEvent event) throws Exception {
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("views/forgotpasswordview.fxml"));
+        stage.setScene(new Scene(root));
+        stage.show();
+    }  
+        
+        @FXML
+        protected void handleRegister(ActionEvent event) {
+            try {
+                // Get values from form fields
+                String firstName = firstNameField.getText();
+                String lastName = lastNameField.getText();
+                String email = emailField.getText();
+                String password = passwordField.getText();
+                String confirmPassword = confirmPasswordField.getText();
+                String phoneNumber = phoneNumberField.getText();
+                String address = addressField.getText();
+                String securityQuestion = securityQuestionBox.getValue();
+                String securityAnswer = securityAnswerField.getText();
+
+                // Input validation
+                if (firstName.isEmpty() || lastName.isEmpty() || email.isEmpty() || 
+                    password.isEmpty() || confirmPassword.isEmpty() || phoneNumber.isEmpty() || 
+                    address.isEmpty() || securityQuestion == null || securityAnswer.isEmpty()) {
+                    showAlert(Alert.AlertType.ERROR, "Registration Error", "All fields are required!");
+                    return;
+                }
+
+                // Validate email format
+                if (!email.matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+                    showAlert(Alert.AlertType.ERROR, "Registration Error", "Invalid email format!");
+                    return;
+                }
+
+                // Validate password match
+                if (!password.equals(confirmPassword)) {
+                    showAlert(Alert.AlertType.ERROR, "Registration Error", "Passwords do not match!");
+                    return;
+                }
+
+                // Validate password strength
+                if (!password.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$")) {
+                    showAlert(Alert.AlertType.ERROR, "Registration Error", 
+                        "Password must be at least 8 characters long and contain both letters and numbers!");
+                    return;
+                }
+
+                // Validate phone number format
+                if (!phoneNumber.matches("\\d{10}")) {
+                    showAlert(Alert.AlertType.ERROR, "Registration Error", "Phone number must be 10 digits!");
+                    return;
+                }
+
+                // Check if user already exists
+                if (userDao.findByEmail(email) != null) {
+                    showAlert(Alert.AlertType.ERROR, "Registration Error", "Email already registered!");
+                    return;
+                }
+
+                // Create new user
+                User newUser = new User();
+                newUser.setFirstName(firstName);
+                newUser.setLastName(lastName);
+                newUser.setEmail(email);
+                newUser.setPassword(password);
+                newUser.setPhoneNumber(phoneNumber);
+                newUser.setStreetAddress(address);
+                newUser.setSecurityQuestion(securityQuestion);
+                newUser.setSecurityAnswer(securityAnswer);
+
+                // Save user to database
+                boolean success = userDao.save(newUser);
+
+                if (success) {
+                    showAlert(Alert.AlertType.INFORMATION, "Success", "Registration successful!");
+                    // Navigate to login view
+                    loadView("/views/LoginView.fxml", event);
+                } else {
+                    showAlert(Alert.AlertType.ERROR, "Error", "Failed to register user!");
+                }
+
+            } catch (Exception e) {
+                showAlert(Alert.AlertType.ERROR, "Error", "An error occurred: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        private void showAlert(Alert.AlertType type, String title, String content) {
+            Alert alert = new Alert(type);
+            alert.setTitle(title);
+            alert.setHeaderText(null);
+            alert.setContentText(content);
+            alert.showAndWait();
+        }
+
+        private void loadView(String fxmlPath, ActionEvent event) throws Exception {
+            Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource(fxmlPath));
+            stage.setScene(new Scene(root));
+            stage.show();    
+    }
+    
+}

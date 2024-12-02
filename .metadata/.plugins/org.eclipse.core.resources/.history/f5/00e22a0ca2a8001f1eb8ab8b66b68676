@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.UserController" spacing="10" alignment="CENTER">
+    <children>
+        <TextField fx:id="emailField" promptText="Email"/>
+        <ComboBox fx:id="securityQuestionBox">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String>What is your pet's name?</String>
+                    <String>What is your mother's maiden name?</String>
+                    <String>What was your first car?</String>
+                </FXCollections>
+            </items>
+        </ComboBox>
+        <TextField fx:id="securityAnswerField" promptText="Security Answer"/>
+        <PasswordField fx:id="newPasswordField" promptText="New Password"/>
+        <Button text="Reset Password" onAction="#handleResetPassword"/>
+    </children>
+</VBox>

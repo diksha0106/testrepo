@@ -1,0 +1,179 @@
+package controllers;
+
+import dao.UserDao;
+import models.User;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+
+public class UserController {
+
+@FXML private Textfield emailfield;
+
+@FXML private Passwordfield passwordfield;
+
+
+@FXML private Textfield firstnamefield;
+
+@FXML private Textfield lastnamefield;
+
+@FXML private Passwordfield confirmpasswordfield;
+
+
+@FXML private Textfield phonenumberfield;
+
+@FXML private Textfield addressfield;
+
+
+@FXML private Combobox<String> securityquestionbox;
+
+@FXML private Textfield securityanswerfield;
+
+
+@FXML private Passwordfield newpasswordfield;
+
+
+private Userdao userdao;
+
+
+public Usercontroller(){
+this.userdao= new Userdao();
+}
+
+
+@FXML
+
+protected void handlelogin(actionevent event){
+
+string email=emailfield. gettext();
+
+string password=passwordfield. gettext();
+
+
+user user=userdao. findbyemail(email);
+
+
+if(user!=null&&user. getpassword(). equals(password)){
+
+system. out. println ("login successful!");
+
+}else{
+
+system. out. println ("invalid credentials.");
+
+}
+
+}
+
+
+@FXML
+
+protected void handleregister(actionevent event){
+
+if(!passwordfield. gettext(). equals(confirmpasswordfield. gettext())){
+
+system. out. println ("passwords do not match.");
+
+return;
+
+}
+
+
+user newuser= new user(null,
+
+firstnamefield. gettext(),
+
+lastnamefield. gettext(),
+
+emailfield. gettext(),
+
+passwordfield. gettext(),
+
+phonenumberfield. gettext(),
+
+addressfield. gettext(),
+
+securityquestionbox. getvalue(),
+
+securityanswerfield. gettext(),
+
+"user");
+
+
+if(userdao.save(newuser)){
+
+system.out.println ("user registered successfully.");
+
+}else{
+
+system.out.println ("registration failed.");
+
+}
+
+}
+
+
+@FXML
+
+protected void handleresetpassword(actionevent event){
+
+user user=userdao.findbyemail(emailfield.text());
+
+
+if(user!=null&&securityanswerfield.text().equals(user.securityanswer())){
+
+user.setpassword(newpasswordfield.text());
+
+if(userdao.update(user)){
+
+system.out.println ("password reset successful.");
+
+}else{
+
+system.out.println ("failed to update password.");
+
+}
+
+}else{
+
+system.out.println ("incorrect information.");
+
+}
+
+}
+
+
+@FXML
+
+protected void showregisterview(actionevent event)throws exception{
+
+stage stage=(stage)((button)event.source()).getscene().getwindow();
+
+parent root=fxmlloader.load(getclass().getresource("/com/metratransit/views/registerview.fxml"));
+
+stage.setscene(new scene(root));
+
+stage.show();
+
+}
+
+
+@FXML
+
+protected void showforgotpasswordview(actionevent event)throws exception{
+
+stage stage=(stage)((button)event.source()).getscene().getwindow();
+
+parent root=fxmlloader.load(getclass().getresource("/com/metratransit/views/forgotpasswordview.fxml"));
+
+stage.setscene(new scene(root));
+
+stage.show();
+
+}
+
+}

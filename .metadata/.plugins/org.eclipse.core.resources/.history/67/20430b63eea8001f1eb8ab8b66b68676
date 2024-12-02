@@ -1,0 +1,33 @@
+.root {
+    -fx-background-image: url('/images/metro-background.jpg');
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.content-box {
+    -fx-background-color: rgba(220, 220, 220, 0.85);
+    -fx-padding: 30px;
+    -fx-spacing: 15;
+    -fx-alignment: center;
+    -fx-min-width: 350;
+    -fx-max-width: 350;
+    -fx-max-height: 400;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 0);
+}
+
+.title-text {
+    -fx-font-family: "Script MT Bold";
+    -fx-font-size: 36px;
+}
+
+.button {
+    -fx-background-color: #808080;
+    -fx-text-fill: white;
+    -fx-min-width: 200;
+}
+
+.hyperlink {
+    -fx-text-fill: black;
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.metratransit.controllers.UserController" spacing="10" alignment="CENTER">
+    <children>
+        <TextField fx:id="firstNameField" promptText="First Name"/>
+        <TextField fx:id="lastNameField" promptText="Last Name"/>
+        <TextField fx:id="emailField" promptText="Email"/>
+        <PasswordField fx:id="passwordField" promptText="Password"/>
+        <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password"/>
+        <TextField fx:id="phoneNumberField" promptText="Phone Number"/>
+        <TextField fx:id="addressField" promptText="Street Address"/>
+        <ComboBox fx:id="securityQuestionBox">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String>What is your pet's name?</String>
+                    <String>What is your mother's maiden name?</String>
+                    <String>What was your first car?</String>
+                </FXCollections>
+            </items>
+        </ComboBox>
+        <TextField fx:id="securityAnswerField" promptText="Security Answer"/>
+        <Button text="Submit" onAction="#handleRegister"/>
+    </children>
+</VBox>

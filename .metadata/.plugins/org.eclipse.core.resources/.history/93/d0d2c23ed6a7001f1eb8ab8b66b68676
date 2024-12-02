@@ -1,0 +1,29 @@
+package Application;
+
+import dao.UserDao;
+import javafx.Application.Main;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+/** Main application class for the TransitUserManager application */
+public class MainApplication extends Application {
+
+public static void main(String[] args){
+new UserDao(); // Ensure table creation before launching UI
+launch(args);
+}
+
+@Override
+
+public void start(Stage primaryStage)throws Exception{
+Parent root= FXMLLoader.load(getClass().getResource("/com/metratransit/views/LoginView.fxml"));
+primaryStage.setTitle("Transit User Manager");
+primaryStage.setScene(new Scene(root));
+primaryStage.show();
+
+}
+
+}
+

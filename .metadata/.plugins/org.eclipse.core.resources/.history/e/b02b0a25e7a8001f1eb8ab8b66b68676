@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.UserController" 
+      alignment="CENTER" spacing="15" style="-fx-background-color: white;">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    
+    <Text text="Reset Password" style="-fx-font-size: 24;"/>
+    
+    <TextField fx:id="emailField" promptText="Email" maxWidth="300"/>
+    <ComboBox fx:id="securityQuestionBox" maxWidth="300">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="What is your pet's name?"/>
+                <String fx:value="What is your mother's maiden name?"/>
+                <String fx:value="What was your first car?"/>
+            </FXCollections>
+        </items>
+    </ComboBox>
+    <TextField fx:id="securityAnswerField" promptText="Security Answer" maxWidth="300"/>
+    <PasswordField fx:id="newPasswordField" promptText="New Password" maxWidth="300"/>
+    
+    <Button text="Reset Password" onAction="#handlePasswordReset"
+            style="-fx-background-color: #808080; -fx-text-fill: white;" minWidth="200"/>
+</VBox>

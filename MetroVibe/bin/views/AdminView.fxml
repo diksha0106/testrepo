@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.AdminController"
+      spacing="10" styleClass="content-box">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <Label text="Admin Dashboard" style="-fx-font-size: 24;"/>
+    
+    <TableView fx:id="userTable" VBox.vgrow="ALWAYS">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID"/>
+            <TableColumn fx:id="firstNameColumn" text="First Name"/>
+            <TableColumn fx:id="lastNameColumn" text="Last Name"/>
+            <TableColumn fx:id="emailColumn" text="Email"/>
+            <TableColumn fx:id="phoneColumn" text="Phone"/>
+            <TableColumn fx:id="addressColumn" text="Address"/>
+            <TableColumn fx:id="roleColumn" text="Role"/>
+        </columns>
+    </TableView>
+
+    <HBox spacing="10">
+        <Button text="Refresh" onAction="#refreshUserList"/>
+        <Button text="Delete Selected" onAction="#deleteUser"/>
+        <Button text="Logout" onAction="#logout"/>
+        <Button text="Manage Trains" onAction="#showTrainManagement"/>
+    </HBox>
+</VBox>

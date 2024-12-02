@@ -1,0 +1,19 @@
+package dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DBConnect {
+
+private static final string URL= "jdbc:mysql://localhost:3306/your_database";
+private static final string USERNAME= "your_username";
+private static final string PASSWORD= "your_password";
+
+public static connection getconnection()throws SQLException{
+return drivermanager. getconnection(url,
+username,
+password);
+}
+}
+

@@ -1,0 +1,61 @@
+package controllers;
+
+import dao.UserDao;
+import models.User;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+
+public class UserController {
+
+    @FXML private TextField emailField;
+    @FXML private PasswordField passwordField;
+    @FXML private TextField firstNameField;
+    @FXML private TextField lastNameField;
+    @FXML private PasswordField confirmPasswordField;
+    @FXML private TextField phoneNumberField;
+    @FXML private TextField addressField;
+    @FXML private ComboBox<String> securityQuestionBox;
+    @FXML private TextField securityAnswerField;
+    @FXML private PasswordField newPasswordField;
+
+    private UserDao userDao;
+
+    public UserController() {
+        this.userDao = new UserDao();
+    }
+
+    @FXML
+    protected void handleLogin(ActionEvent event) {
+        String email = emailField.getText();
+        String password = passwordField.getText();
+
+        User user = userDao.findByEmail(email);
+
+        if (user != null && user.getPassword().equals(password)) {
+            System.out.println("Login successful!");
+        } else {
+            System.out.println("Invalid credentials.");
+        }
+    }
+
+    @FXML
+    protected void showRegisterView(ActionEvent event) throws Exception {
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/com/metratransit/views/registerview.fxml"));
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+
+    @FXML
+    protected void showForgotPasswordView(ActionEvent event) throws Exception {
+        Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource("/com/metratransit/views/forgotpasswordview.fxml"));
+        stage.setScene(new Scene(root));
+        stage.show();
+    }
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<StackPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.UserController"
+           stylesheets="@/style.css">
+    <VBox styleClass="content-box">
+        <Text text="Metra Vibe" styleClass="title-text"/>
+        <TextField fx:id="emailField" promptText="Username"/>
+        <PasswordField fx:id="passwordField" promptText="Password"/>
+        <Hyperlink text="Forgot Password?" onAction="#showForgotPasswordView"/>
+        <Button text="Log In" onAction="#handleLogin"/>
+        <Button text="Create a new account" onAction="#showRegisterView"/>
+    </VBox>
+</StackPane>
+
+

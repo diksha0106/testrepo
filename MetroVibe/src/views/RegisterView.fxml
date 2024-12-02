@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.UserLoginController" 
+      alignment="CENTER" spacing="10" style="-fx-background-color: white;">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    
+    <Text text="Create Account" style="-fx-font-size: 24;"/>
+    
+    <TextField fx:id="firstNameField" promptText="First Name" maxWidth="300"/>
+    <TextField fx:id="lastNameField" promptText="Last Name" maxWidth="300"/>
+    <TextField fx:id="emailField" promptText="Email" maxWidth="300"/>
+    <PasswordField fx:id="passwordField" promptText="Password" maxWidth="300"/>
+    <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password" maxWidth="300"/>
+    <TextField fx:id="phoneNumberField" promptText="Phone Number" maxWidth="300"/>
+    <TextField fx:id="addressField" promptText="Street Address" maxWidth="300"/>
+    
+    <ComboBox fx:id="securityQuestionBox" promptText = "Select a security question" maxWidth="300">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="What is your pet's name?"/>
+                <String fx:value="What is your mother's maiden name?"/>
+                <String fx:value="What was your first car?"/>
+            </FXCollections>
+        </items>
+    </ComboBox>
+    
+    <TextField fx:id="securityAnswerField" promptText="Security Answer" maxWidth="300"/>
+    <Button text="Submit" onAction="#handleRegister" 
+            style="-fx-background-color: #808080; -fx-text-fill: white;" minWidth="200"/>
+	<Button text="Login View" onAction="#showLoginView"/>
+	
+	<!-- Hidden admin field -->
+    <CheckBox fx:id="isAdminCheckBox" text="Admin Account" visible="false" managed="false"/>
+</VBox>
+
